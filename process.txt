@@ -1,0 +1,17 @@
+
+# Create db. Insert data
+# Backup done
+
+# kubectl patch backupconfiguration -n demo primary-backup --type="merge" --patch='{"spec": {"paused": true}}'
+# kubectl scale deploy -n kubedb kubedb-petset-operator --replicas=0
+# Delete pod + pvc
+# Create PVC
+# Restore PVC
+# Delete Restore session
+# kubectl scale deploy -n kubedb kubedb-petset-operator --replicas=1
+
+
+# paths:
+# - /data/db
+# exclude:
+# - /data/db/lost+found

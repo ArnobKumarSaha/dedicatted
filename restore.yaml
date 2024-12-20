@@ -1,0 +1,28 @@
+# kubectl patch backupconfiguration -n demo primary-backup --type="merge" --patch='{"spec": {"paused": true}}'
+
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: secondary-restore
+  namespace: demo
+spec:
+  task:
+    name: pvc-restore
+  repository:
+    name: minio-repo
+  target:
+    ref:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: datadir-mg7-1
+    rules:
+    - snapshots: ["latest"]
+      exclude:
+      - "lost+found"
+  runtimeSettings:
+    container:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+    # pod:
+    #   nodeName: <>

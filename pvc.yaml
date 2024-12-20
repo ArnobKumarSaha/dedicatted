@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: mg7
+    app.kubernetes.io/managed-by: kubedb.com
+    app.kubernetes.io/name: mongodbs.kubedb.com
+  name: datadir-mg7-1
+  namespace: demo
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: local-path
+  volumeMode: Filesystem
