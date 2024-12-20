@@ -24,6 +24,6 @@ spec:
   volumes:
   - name: dbdata
     persistentVolumeClaim:
-      claimName: datadir-mongo-1
+      claimName: datadir-mg7-1
   securityContext:
     fsGroup: 999
