@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-access
+  namespace: demo
+spec:
+  containers:
+  - name: pvc-access
+    image: ghcr.io/appscode-images/mongo:7.0.8
+    command: ["sleep", "infinity"]
+    volumeMounts:
+    - mountPath: /data/db
+      name: dbdata
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      runAsGroup: 0
+      runAsNonRoot: true
+      runAsUser: 999
+      seccompProfile:
+        type: RuntimeDefault
+  volumes:
+  - name: dbdata
+    persistentVolumeClaim:
+      claimName: datadir-mongo-1
+  securityContext:
+    fsGroup: 999

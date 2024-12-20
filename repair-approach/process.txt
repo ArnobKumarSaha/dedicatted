@@ -1,0 +1,33 @@
+# Links
+https://stackoverflow.com/questions/42648009/error-while-recovering-a-wiredtiger-collection-from-a-corrupt-mongodb-installati
+https://jira.mongodb.org/browse/SERVER-31076
+https://www.mongodb.com/docs/manual/reference/program/mongod/#std-option-mongod.--repair
+
+
+
+
+
+
+--- steps ---
+Better do another restore on a fresh pvc. Because this backed up data already very old. taken at bd time 19 dec 11:55 pm, or so.
+One backupconfig is running with 6 hours schedule time. 
+
+scale down petset, delete db pod, 
+recreate fresh pvc : first 50Gi then 500Gi
+restoresession
+
++
+
+kubectl scale deploy -n kubedb kubedb-petset-operator --replicas=0
+kubectl delete pod mg7-1 -n demo
+
+kubectl apply -f pod.yaml
+Exec into pod 
+1) ls -l /data/db
+wiredtiger.turtle should be owned by 999
+lost+found should not be present
+
+2) mongod --repair --dbpath /data/db 
+
+kubectl delete -f pod.yaml
+kubectl scale deploy -n kubedb kubedb-petset-operator --replicas=1
